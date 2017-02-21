@@ -1,4 +1,5 @@
 var Table = require('cli-table');
+var wcwidth = require('wcwidth');
 
 module.exports = exports = function logTable(data){
   if(typeof data !== 'object' || data === null){
@@ -56,12 +57,12 @@ module.exports = exports = function logTable(data){
     var width = null;
 
     if(item.toString){
-     if(item.toString().length > MAX_COL_WIDTH)
+     if(wcwidth(item.toString()) > MAX_COL_WIDTH)
       width = MAX_COL_WIDTH;
-     if(item.toString().length < MIN_COL_WIDTH)
+     if(wcwidth(item.toString()) < MIN_COL_WIDTH)
       width = MIN_COL_WIDTH;
      else if(!width)
-      width = item.toString().length;
+      width = wcwidth(item.toString());
     }else{
       width = MAX_COL_WIDTH;
     }
